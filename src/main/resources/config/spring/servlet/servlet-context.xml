@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                		   http://www.springframework.org/schema/context 
+                		   http://www.springframework.org/schema/context/spring-context-4.3.xsd
+                		   http://www.springframework.org/schema/mvc 
+                		   http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+                		   http://www.springframework.org/schema/aop 
+    					   http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<mvc:annotation-driven />
+	
+	<!-- Annotation Scan -->
+	<context:component-scan base-package="com.kmp">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+	</context:component-scan>
+	
+	<!-- Controller 실행 시 Logging  -->
+<!-- 	<bean id="loggingController" class="com.core.logging.LoggingController"></bean> -->
+	
+<!-- 	<aop:config> -->
+<!-- 		<aop:pointcut expression="execution(* com.kmp..*Controller.*(..))"  id="allControlPointCut"/> -->
+<!-- 		<aop:aspect ref="loggingController"> -->
+<!-- 			<aop:around method="printMethodName" pointcut-ref="allControlPointCut"/> -->
+<!-- 		</aop:aspect> -->
+<!-- 	</aop:config> -->
+	
+	<!-- View Resolver -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1"/>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0"/>
+	</bean>
+	
+	<!-- FileDownLoad View -->
+<!-- 	<bean id="downloadView" class="com.kmp.common.util.DownloadView"/> -->
+	
+	<!-- FileUpload Resolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760" />
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>
+	
+<!-- 	<mvc:interceptors> -->
+<!-- 		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/**"/> -->
+<!-- 			<mvc:exclude-mapping path="/login/*.do"/> -->
+<!-- 			<bean class="com.core.interceptor.AuthenticInterceptor" /> -->
+<!-- 		</mvc:interceptor> -->
+<!-- 	</mvc:interceptors> -->
+	
+</beans>

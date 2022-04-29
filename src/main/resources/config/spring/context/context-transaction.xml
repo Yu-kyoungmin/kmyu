@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    					   http://www.springframework.org/schema/tx 
+    					   http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+    					   http://www.springframework.org/schema/aop 
+    					   http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	
+	<!-- Transaction Manager -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="mainDataSource"/>
+	</bean>
+
+	<!-- 선언적 Transaction 처리 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="create*" rollback-for="Exception" propagation="REQUIRED"/>
+			<tx:method name="save*" rollback-for="Exception" propagation="REQUIRED"/>
+			<tx:method name="insert*" rollback-for="Exception" propagation="REQUIRED"/>
+			<tx:method name="update*" rollback-for="Exception" propagation="REQUIRED"/>
+			<tx:method name="delete*" rollback-for="Exception" propagation="REQUIRED"/>
+			<tx:method name="merge*" rollback-for="Exception" propagation="REQUIRED"/>
+			<tx:method name="create*NewTx" rollback-for="Exception" propagation="REQUIRES_NEW"/>
+			<tx:method name="insert*NewTx" rollback-for="Exception" propagation="REQUIRES_NEW"/>
+			<tx:method name="update*NewTx" rollback-for="Exception" propagation="REQUIRES_NEW"/>
+			<tx:method name="delete*NewTx" rollback-for="Exception" propagation="REQUIRES_NEW"/>
+			<tx:method name="merge*NewTx" rollback-for="Exception" propagation="REQUIRES_NEW"/>
+			<tx:method name="save*NewTx" rollback-for="Exception" propagation="REQUIRES_NEW"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	
+	<aop:config>
+		<aop:pointcut id="requiredTx" expression="execution(* com..service.*Service.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="requiredTx" />
+<!-- 		<aop:advisor advice-ref="txAdvice2" pointcut-ref="requiredTx" /> -->
+	</aop:config>
+</beans>
