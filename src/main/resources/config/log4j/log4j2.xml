@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="5">
+	<!-- 로그 경로 변수 선언 -->
+	<Properties>
+		<Property name="LOG_PATTERN">[%d{yyyy-MM-dd hh:mm:ss}] %5p [%c] %m%n</Property>
+		<property name="LOG_DIR" value="D:/01.project/logs/KMP" />
+	</Properties>
+
+    <Appenders>
+        
+        <Console name="console" target="SYSTEM_OUT"> 
+			<PatternLayout pattern="${LOG_PATTERN}"/>
+		</Console>
+        
+        <RollingFile name="fileDebug">
+            <FileName>${LOG_DIR}/debug.log</FileName>
+            <FilePattern>${LOG_DIR}/debug.%d{yyyy-MM-dd}_%i.log</FilePattern>
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="300MB"/>
+            </Policies>
+        </RollingFile>
+        
+        <RollingFile name="fileInfo">
+            <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <FileName>${LOG_DIR}/info.log</FileName>
+            <FilePattern>${LOG_DIR}/info.%d{yyyy-MM-dd}_%i.log</FilePattern>
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="300MB"/>
+            </Policies>
+        </RollingFile>
+        
+        <RollingFile name="fileError">
+            <LevelRangeFilter minLevel="ERROR" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <FileName>${LOG_DIR}/error.log</FileName>
+            <FilePattern>${LOG_DIR}/error.%d{yyyy-MM-dd}_%i.log</FilePattern>
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="300MB"/>
+            </Policies>
+        </RollingFile>
+        
+    </Appenders>
+    
+    
+    <Loggers>
+        <Logger name="com.kmp" level="debug" additivity="false">
+            <AppenderRef ref="fileDebug" level="debug"/>
+        </Logger>
+        
+        <!-- org.springframework.beans -->
+        <Logger name="org.springframework.boot.autoconfigure" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <Logger name="org.springframework.beans" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- org.springframework.jndi -->
+        <Logger name="org.springframework.jndi" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- org.springframework.context -->
+        <Logger name="org.springframework.context.support" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- org.springframework.web -->
+        <Logger name="org.springframework.web.servlet.DispatcherServlet" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <Logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <Logger name="org.springframework.web.servlet.view.JstlView" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- org.springframework.security.web -->
+        <Logger name="org.springframework.security.web" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- org.hibernate.validator -->
+        <Logger name="org.hibernate.validator" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- org.apache.ibatis -->
+        <Logger name="org.apache.ibatis" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- org.mybatis.spring -->
+        <Logger name="org.mybatis.spring" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- log4jdbc -->
+        <Logger name="log4jdbc" level="error" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- jdbc -->
+        <Logger name="jdbc" level="off" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <Logger name="jdbc.sqlonly" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        
+        <!-- root -->
+        <Root level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="fileInfo" level="info"/>
+            <AppenderRef ref="fileError" level="error"/>
+        </Root>
+    </Loggers>
+</Configuration>
