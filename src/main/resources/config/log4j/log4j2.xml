@@ -55,7 +55,7 @@
     
     <Loggers>
         <Logger name="com.kmp" level="debug" additivity="false">
-            <AppenderRef ref="fileDebug" level="debug"/>
+            <AppenderRef ref="console" level="debug"/>
         </Logger>
         
         <!-- org.springframework.beans -->
