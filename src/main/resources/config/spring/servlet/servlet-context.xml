@@ -23,14 +23,14 @@
 	</context:component-scan>
 	
 	<!-- Controller 실행 시 Logging  -->
-<!-- 	<bean id="loggingController" class="com.core.logging.LoggingController"></bean> -->
+	<bean id="loggingController" class="com.core.logging.LoggingController" />
 	
-<!-- 	<aop:config> -->
-<!-- 		<aop:pointcut expression="execution(* com.kmp..*Controller.*(..))"  id="allControlPointCut"/> -->
-<!-- 		<aop:aspect ref="loggingController"> -->
-<!-- 			<aop:around method="printMethodName" pointcut-ref="allControlPointCut"/> -->
-<!-- 		</aop:aspect> -->
-<!-- 	</aop:config> -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.kmp..*Controller.*(..))"  id="allControlPointCut"/>
+		<aop:aspect ref="loggingController">
+			<aop:around method="printMethodName" pointcut-ref="allControlPointCut"/>
+		</aop:aspect>
+	</aop:config>
 	
 	<!-- View Resolver -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
