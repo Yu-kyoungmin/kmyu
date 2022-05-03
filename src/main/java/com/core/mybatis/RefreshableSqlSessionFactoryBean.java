@@ -1,4 +1,4 @@
-package com.core.sql;
+package com.core.mybatis;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
