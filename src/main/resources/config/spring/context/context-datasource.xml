@@ -10,8 +10,11 @@
 	<!-- ============================================================================== -->
 	<!-- Datasource 설정 -->
 	<!-- ============================================================================== -->
-	<bean id="mainDataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="core.log.jdbc.driver.OracleDriver" />
+	<bean id="dataSourceOra" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@211.252.87.18:1521:ORCL"/>
+		<property name="username" value="LK_EDU" />
+		<property name="password" value="LK_EDU1!" />
 		<property name="maxActive" value="50"/>
         <property name="maxIdle" value="50"/>
         <property name="maxWait" value="10000"/>
@@ -20,18 +23,47 @@
 	<!-- ============================================================================== -->
 	<!--  sqlSessionFactory -->
 	<!-- ============================================================================== -->
-    <bean id="sqlSessionFactory" class="com.core.sql.RefreshableSqlSessionFactoryBean">
+    <!--  
+    <bean id="sqlSessionFactoryBean" class="com.core.mybatis.RefreshableSqlSessionFactoryBean">
 		<property name="dataSource" ref="mainDataSource"/>
-		<property name="mapperLocations" value="classpath:/com/kmp/**/sql/*.sqlx"/>
+		<property name="mapperLocations">
+            <array>
+                <value>classpath:/com/kmp/**/sql/*.xml</value>
+            </array>
+        </property>
+		
 		<property name="configLocation"  value="classpath:/config/mapper/sql-mapper-config.xml"/>
 	</bean>
+	-->
 	
 	<!-- ============================================================================== -->
 	<!-- SqlSession 설정 -->
 	<!-- ============================================================================== -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg index="0" ref="sqlSessionFactory"/>
-	</bean>
-	
+	<!--  
+	<bean id="sqlManagerOra" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean" />
+    </bean>
+    -->
     
+    <bean id="sqlSessionOra" class="com.core.mybatis.RefreshableSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceOra"/>
+        <property name="configLocation"  value="classpath:/config/mapper/sql-mapper-config.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:/com/core/**/sql/*.xml</value>
+                <value>classpath:/com/kmp/**/sql/*.xml</value>
+            </list>
+        </property>
+        <property name="checkInterval" value="10000" />
+    </bean>
+    
+    <bean id="sqlManagerOra" class="com.core.dataaccess.SqlManagerForMetaData">
+        <property name="sqlSessionFactory" ref="sqlSessionOra"/>
+    </bean>
+    
+<!--     <bean id="sqlManagerOra" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache"> -->
+<!-- 		<constructor-arg ref="sqlSessionOra" /> -->
+<!-- 	</bean> -->
+	
+	
 </beans>

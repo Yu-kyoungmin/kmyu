@@ -33,7 +33,7 @@ public class TestService extends BaseService {
 		
 		logger.debug("----- test Service");
 		resultMap.put("AAA", "AAAA");
-		resultMap.put("list", getSqlManager().selectList("test.selectTest"));
+		resultMap.put("list", getSqlManager("sqlManagerOra").selectList("test.selectTest"));
 		
 		return resultMap;
 	}

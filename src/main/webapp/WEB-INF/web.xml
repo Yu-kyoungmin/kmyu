@@ -84,9 +84,18 @@
 		<param-value>classpath*:config/spring/context/context-*.xml</param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>contextLoaderAdapter</param-name>
+		<param-value>com.core.web.listener.adapter.CommonContextLoaderAdapter</param-value>
+	</context-param>
+	
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>com.core.web.listener.ContextLoaderListener</listener-class>
 	</listener>
+	
+<!-- 	<listener> -->
+<!-- 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
+<!-- 	</listener> -->
 	
 	<!-- 세션 -->
 	<session-config>

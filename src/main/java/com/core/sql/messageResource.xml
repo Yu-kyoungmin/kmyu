@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="messageResource">
+	<select id="selectMessageAndLabelList" resultType="map">
+		/****** [ "messageResource".selectMessageAndLabelList ] 다국어조회 ******/
+		SELECT T.MSG_CD
+		     , T.LANG_CD
+		     , T.MSG_NM
+		     , T.LAST_UPDATE_DTTM
+		     , COUNT(T.MSG_CD) OVER(PARTITION BY T.MSG_CD) AS MSG_CD_CNT
+		  FROM (
+		        SELECT MSG_CD
+		             , LANG_CD
+		             , MSG_NM
+		             , CASE WHEN LENGTH(NVL(UPD_DATE, INS_DATE) || NVL(UPD_TIME, INS_TIME)) = 14 THEN (NVL(UPD_DATE, INS_DATE) || NVL(UPD_TIME, INS_TIME)) ELSE NULL END AS LAST_UPDATE_DTTM
+		          FROM TB_SYS_MSG
+		         WHERE USE_YN = 'Y'
+		       ) T
+		 <if test="LAST_UPDATE_DTTM != null and LAST_UPDATE_DTTM != ''">
+		 WHERE T.LAST_UPDATE_DTTM <![CDATA[>]]> #{LAST_UPDATE_DTTM}
+		 </if>
+	</select>
+</mapper>

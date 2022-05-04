@@ -2,21 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <!-- DB기반 메시지 프로퍼티 -->
+	<bean id="messageResourceService" class="com.core.message.MessageResourceService">
+<!-- 		<constructor-arg ref="sqlSessionOra" /> -->
+		<property name="sqlManager" ref="sqlManagerOra" />
+    </bean>
 	
-	<!-- DB기반 메시지 프로퍼티 -->
-<!-- 	<bean id="messageResourceService" class="com.core.message.MessageResourceService"> -->
-<!--     	<property name="sqlManager" ref="sqlManagerDB2" /> -->
-<!--     </bean> -->
 	
-	
-<!--     <bean id="messageSource" class="com.core.message.DatabaseDrivenMessageSource"> -->
-<!-- 		<constructor-arg ref="messageResourceService"/> -->
-<!-- 		<property name="parentMessageSource" ref="propertiesMessageSource"/> -->
-<!-- 	</bean> -->
+    <bean id="messageSource" class="com.core.message.DatabaseDrivenMessageSource">
+		<constructor-arg ref="messageResourceService"/>
+		<property name="parentMessageSource" ref="propertiesMessageSource"/>
+	</bean>
 
-<!--     <bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor"> -->
-<!--         <constructor-arg ref="messageSource" /> -->
-<!--     </bean> -->
+    <bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
+        <constructor-arg ref="messageSource" />
+    </bean>
     
     
     

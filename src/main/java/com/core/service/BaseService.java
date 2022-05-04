@@ -1,6 +1,10 @@
 package com.core.service;
 
+import org.springframework.util.StringUtils;
+
 import com.core.dataaccess.SqlManager;
+import com.core.dataaccess.SqlManagerFactory;
+import com.core.web.listener.adapter.CommonContextLoaderAdapter;
 
 /**
  * Service 에서 상속 받아 DB 연결 함.
@@ -18,15 +22,27 @@ import com.core.dataaccess.SqlManager;
  * </pre>
  */
 public class BaseService {
-	public BaseService() {
-		
-	}
+//	public BaseService() {
+//		
+//	}
+//	
+//	public SqlManager getSqlManager() {
+//		return new SqlManager();
+//	}
+//	
+//	public SqlManager getSqlManager(String dataSourceId) {
+//		return new SqlManager(dataSourceId);
+//	}
 	
-	public SqlManager getSqlManager() {
-		return new SqlManager();
+	public BaseService() {
 	}
 	
 	public SqlManager getSqlManager(String dataSourceId) {
-		return new SqlManager(dataSourceId);
+		return SqlManagerFactory.getSqlManager(dataSourceId);
+	}
+	
+	protected BaseService getThis() {
+		String fqn = getClass().getName();
+		return (BaseService)CommonContextLoaderAdapter.getBean(StringUtils.uncapitalize(fqn.substring(fqn.lastIndexOf(".") + 1)));
 	}
 }

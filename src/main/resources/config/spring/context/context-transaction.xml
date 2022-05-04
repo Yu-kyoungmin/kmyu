@@ -13,7 +13,7 @@
 	
 	<!-- Transaction Manager -->
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="mainDataSource"/>
+		<property name="dataSource" ref="dataSourceOra"/>
 	</bean>
 
 	<!-- 선언적 Transaction 처리 -->
