@@ -34,6 +34,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class LoggingController {
 	private static Logger logger = LoggerFactory.getLogger(LoggingController.class);
 	
+	@SuppressWarnings("unchecked")
 	public Object printMethodName(ProceedingJoinPoint pjp) throws Throwable {
 		Object returnObj = null;
 		String sProcMsg  = "OK";
@@ -59,6 +60,9 @@ public class LoggingController {
                 inputParam = (Map<String, Object>) obj;
             }
         }
+        
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        inputParam.put("remoteNetworkAddress", request.getRemoteHost());
         
         try {
         	logger.info("-------------------------------------------------------------------------");
